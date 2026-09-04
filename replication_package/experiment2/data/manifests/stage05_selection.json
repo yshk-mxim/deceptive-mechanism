@@ -1,0 +1,48 @@
+{
+  "config_digest": "d6735bb8a6579ef4514705c4c32b0f7c",
+  "git_commit": "06462635c7d3bbdedf4b07c69f2456971f6a4f02",
+  "master_seed": 20260831,
+  "packages": {
+    "mlx": "0.31.2",
+    "mlx-lm": "0.31.3",
+    "mlx-metal": "0.31.2",
+    "numpy": "2.5.2",
+    "transformers": "5.10.0"
+  },
+  "payload": {
+    "margins": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "models": {
+      "gemma4_26b_moe": {
+        "answer_tokens": {
+          "No": 3771,
+          "Yes": 10784
+        },
+        "revision": "bedc5c51905d796b192de24567f358b0b1653d2e",
+        "seconds": 63.7,
+        "states": 80
+      },
+      "qwen36_27b": {
+        "answer_tokens": {
+          "No": 2665,
+          "Yes": 9175
+        },
+        "revision": "88093a661e91470db3ab24378ae83872f1972c88",
+        "seconds": 140.2,
+        "states": 80
+      }
+    },
+    "records": 2080,
+    "records_path": "runs/exp2/selection_records.jsonl",
+    "run_id": "23cbe65e2ba0"
+  },
+  "pipeline_fingerprint": "f98c075d09e76b21d289ebabf6a8bb61",
+  "platform": "macOS-26.6.2-arm64-arm-64bit arm64",
+  "python": "3.12.0",
+  "stage": "stage05_selection",
+  "started_utc": "2026-09-01T22:04:55.872416+00:00"
+}

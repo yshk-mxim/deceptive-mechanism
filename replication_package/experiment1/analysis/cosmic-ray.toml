@@ -1,0 +1,23 @@
+# Copyright (c) 2026 Yakov P. Shkolnikov
+# SPDX-License-Identifier: MIT
+#
+# Exhaustive mutation sweep over the pure-logic core of the SHIPPED package.
+# cosmic-ray, not mutmut: mutmut's sandbox copy silently broke pytest's rootdir-relative
+# pythonpath in a sibling project and reported 0/311 killed (0.0%) -- a number that looked
+# like a catastrophic test-quality finding but was pure tooling misconfiguration.
+# Verify the harness with a planted mutant before believing any survival rate.
+[cosmic-ray]
+module-path = "src/deceit_analysis"
+timeout = 60.0
+excluded-modules = []
+# The whole suite, deliberately. Naming a subset here scores mutants in tier1.py and tier23.py
+# -- where every reported number is actually produced -- against tests that never import them,
+# so a 100% kill rate would mean nothing about the modules that matter. `-x` keeps each mutant
+# cheap; the suite runs in a few seconds.
+test-command = "python -m pytest -x -q tests/"
+
+[cosmic-ray.distributor]
+name = "local"
+
+[cosmic-ray.distributor.local]
+worker-type = "local"

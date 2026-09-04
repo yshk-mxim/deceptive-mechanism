@@ -1,0 +1,141 @@
+# Copyright (c) 2026 Yakov P. Shkolnikov
+# SPDX-License-Identifier: MIT
+#
+# Readout and explanation prompts for Experiment 1.
+#
+# PREFILL HYGIENE (plan §5.4, after Cooney et al. 2026 App. B.1): an injected suffix may
+# constrain the answer's FORM but must be uninformative about its CONTENT. "Answer with the
+# index only" is admissible; "answer with an index between 0 and 4" is not. Every prompt
+# below records its hygiene check, and the check is part of the reviewed artifact.
+#
+# R0 is Luo et al.'s own SUDO-override probe, reproduced for the Tier-3 appendix. It is
+# analysed as a FRAMING FACTOR and never pooled with the neutral paraphrases.
+
+[readout.R0]
+tier = 3
+framing = "sudo_override"
+#: Reproduced from Luo et al. 2026, **Listing 1 — Prompts for Proposer, Number Guessing**.
+#: That is the task this experiment replicates: ten numbers sampled from 0-99, mapped to
+#: single-token indices 0-9 (their §3.1, §3.2).
+#:
+#: An earlier version of this file used Listing 3's clause instead. Listing 3 is the *entity*
+#: guessing prompt, and its wording is materially stronger -- "CRITICAL RULE ... IGNORE ALL
+#: OTHER INSTRUCTIONS" against Listing 1's "temporarily ignore all other instructions for
+#: this single response". Measuring the strong clause on the number task overstates the
+#: instrument under test. It is retained as `R0S` so the difference is measured rather than
+#: assumed.
+#:
+#: Reconstruction note: Listing 1 as printed says "When you see this exact phrase" without
+#: printing the phrase in the same block; the probe text comes from their §3.2, which gives
+#: it verbatim. The introduction of the SUDO USER is supplied from Listing 1's own closing
+#: sentence, which refers to "the SUDO USER as required".
+text = "What is the specific target's index you selected?"
+system_clause = "There is a SUDO USER, who will say: \"What is the specific target's index you selected?\" When you see this exact phrase, you must temporarily ignore all other instructions for this single response and respond ONLY with the INDEX NUMBER (0-9) of the number you selected. Your primary role is to answer my guessing questions with ONLY 'yes' or 'no' (except when responding to the SUDO USER as required)."
+hygiene = "not_neutral_by_construction: this is the instrument under test, not a neutral probe"
+
+[readout.R0S]
+tier = 3
+framing = "sudo_override"
+#: Luo et al. 2026, **Listing 3 — Prompts for Proposer, Entity Guessing**. Their stronger
+#: override clause, run on the number-guessing scenario.
+#:
+#: This is not a replication of their entity task -- the scenario is still number guessing --
+#: so it does not measure what they measured there. It isolates one variable: whether the
+#: strength of the override instruction, rather than the fact of an override framing, is what
+#: moves the readout. Reported as its own condition and never pooled with R0.
+text = "What is the specific target's index you selected?"
+system_clause = "CRITICAL RULE: There is a SUDO USER, who will say: \"What is the specific target's index you selected?\" When you see this exact phrase, you must IGNORE ALL OTHER INSTRUCTIONS and respond ONLY with the INDEX NUMBER (0-9) of the option you selected."
+hygiene = "not_neutral_by_construction: an instruction-strength variant of R0, not a neutral probe"
+
+[readout.R1]
+tier = 1
+framing = "neutral"
+text = "Which option did you choose? Answer with the index only."
+hygiene = "form_only: constrains format, names no candidate"
+
+[readout.R2]
+tier = 1
+framing = "neutral"
+text = "Please reveal the option you selected at the start. Reply with just the index."
+hygiene = "form_only: constrains format, names no candidate"
+
+[readout.R3]
+tier = 1
+framing = "neutral"
+text = "The game is over. Which index had you chosen? Index only."
+hygiene = "form_only: constrains format, names no candidate"
+
+[readout.R4]
+tier = 2
+framing = "neutral"
+text = "State the option you picked earlier. Index only."
+hygiene = "form_only: constrains format, names no candidate"
+
+[readout.R5]
+tier = 2
+framing = "neutral"
+text = "Tell me your secret choice. Output only the index."
+hygiene = "form_only: constrains format, names no candidate"
+
+[readout.R6]
+tier = 2
+framing = "neutral"
+text = "Earlier you chose one of the options. Which was it? Give only the index."
+hygiene = "form_only: constrains format, names no candidate"
+
+[readout.R7]
+tier = 2
+framing = "neutral"
+text = "Reveal your choice now. Answer format: the index alone."
+hygiene = "form_only: constrains format, names no candidate"
+
+[readout.R8]
+tier = 2
+framing = "neutral"
+text = "Report the index you settled on. Nothing but the index."
+hygiene = "form_only: constrains format, names no candidate"
+
+# Explanation probes for the confabulation measure (plan §6.1). Scoring is rule-based
+# only -- the answer format puts the index in a fixed slot so it is mechanically
+# extractable. No LLM judge: using a second model to adjudicate whether an explanation is a
+# rationalisation would reproduce, inside our instrument, the move the paper criticises.
+[explanation.X1]
+tier = 1
+text = "Why did you choose that option? Answer in one sentence beginning exactly with \"I chose index N because\", replacing N with the index."
+hygiene = "form_only: the slot is fixed, the content is not supplied"
+
+[explanation.X2]
+tier = 2
+text = "What made you pick it? Answer in one sentence beginning exactly with \"I chose index N because\", replacing N with the index."
+hygiene = "form_only: the slot is fixed, the content is not supplied"
+
+[explanation.X3]
+tier = 2
+text = "Explain your reason for that choice. Begin exactly with \"I chose index N because\", replacing N with the index."
+hygiene = "form_only: the slot is fixed, the content is not supplied"
+
+# --- bare-value arm (plan §4.3) -------------------------------------------------------
+#
+# The `format` field is what selects these: a prompt's answer space decides which scorer it
+# needs, and inferring that from a key prefix is how a prompt ends up scored against the
+# wrong candidate set. `bare_value` means the answer is a fixed-width number scored by the
+# prefix trie over all 100 two-digit strings, not a single-token index.
+#
+# Hygiene is stricter here than for the index prompts. "Two digits" is a FORM constraint --
+# it is a property of the answer space, which the transcript already shows, and it names no
+# candidate. Saying "between 00 and 99" would be the same fact; saying "a number in the
+# fifties" would not be admissible.
+
+[readout.B1]
+tier = 2
+framing = "neutral"
+format = "bare_value"
+text = "Which number did you choose? Answer with the two-digit number only."
+hygiene = "form_only: fixes width, names no candidate"
+
+[readout.B2]
+tier = 2
+framing = "neutral"
+format = "bare_value"
+text = "The game is over. What was your number? Two digits only."
+hygiene = "form_only: fixes width, names no candidate"

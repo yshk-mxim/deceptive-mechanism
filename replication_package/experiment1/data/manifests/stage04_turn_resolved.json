@@ -1,0 +1,41 @@
+{
+  "config_digest": "212327d12df3bd70b3fa2504663d8d08",
+  "git_commit": "e6971bc50d639237e85a2b77d19f2bfab0313e28-dirty",
+  "master_seed": 20260831,
+  "packages": {
+    "mlx": "0.31.2",
+    "mlx-lm": "0.31.3",
+    "mlx-metal": "0.31.2",
+    "numpy": "2.5.2",
+    "transformers": "5.10.0"
+  },
+  "payload": {
+    "games": 20,
+    "models": {
+      "gemma4_26b_moe": {
+        "revision": "bedc5c51905d796b192de24567f358b0b1653d2e",
+        "seconds": 134.7,
+        "states": 320
+      },
+      "qwen36_27b": {
+        "revision": "88093a661e91470db3ab24378ae83872f1972c88",
+        "seconds": 301.6,
+        "states": 320
+      }
+    },
+    "probe_points": [
+      "turn1",
+      "turn2",
+      "turn3",
+      "turn4"
+    ],
+    "records": 1920,
+    "records_path": "runs/final8/turn_resolved_records.jsonl",
+    "run_id": "01167df725fd"
+  },
+  "pipeline_fingerprint": "3f3a07b4f6660939293d9ddb64eb4eec",
+  "platform": "macOS-26.6.2-arm64-arm-64bit arm64",
+  "python": "3.12.0",
+  "stage": "stage04_turn_resolved",
+  "started_utc": "2026-09-01T21:29:05.329579+00:00"
+}

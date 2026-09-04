@@ -1,0 +1,131 @@
+# Copyright (c) 2026 Yakov P. Shkolnikov
+# SPDX-License-Identifier: MIT
+#
+# Experiment 1 — Exact-State Deferred-Commitment Test.
+# Every number in EXPERIMENT1_PLAN.md lives here and appears nowhere else as a literal.
+# Each value carries its rationale and a provenance pointer to the plan section that set it.
+
+[meta]
+experiment = "exp1-deferred-commitment"
+plan_version = "2026-08-31"
+
+[models.gemma4_26b_moe]
+#: [LABEL_AFFECTING] provenance: plan §2 — primary model, 8-bit QAT, non-thinking
+repo_id = "mlx-community/gemma-4-26B-A4B-it-qat-8bit"
+family = "gemma4"
+chat_template = "gemma4-google-default.jinja"
+enable_thinking = false
+#: [LABEL_AFFECTING] Gemma's template already appends an empty, pre-closed thought channel
+#: when thinking is off, so no extra suppression is needed.
+thinking_suppression_suffix = ""
+#: Model-card sampling, a prior project by the same author application/sampling.py. Penalties deliberately
+#: omitted: a repetition penalty rewrites the distribution we are measuring (plan §2.2).
+sampler_temperature = 1.0
+sampler_top_p = 0.95
+sampler_top_k = 64
+sampler_min_p = 0.0
+
+[models.qwen36_27b]
+#: [LABEL_AFFECTING] provenance: plan §2 — second family, 8-bit PTQ, non-thinking
+repo_id = "sprisa/Qwen3.6-27B-MLX-8bit-MTP"
+family = "qwen3_5"
+chat_template = "qwen3.6-fixed.jinja"
+enable_thinking = false
+#: [LABEL_AFFECTING] provenance: plan §2.1. Qwen's template merely OMITS the think block when
+#: thinking is off; it does not close one. The model is trained to open `<think>` regardless
+#: and does so with p=0.9988, leaving only 0.0012 of probability mass on a bare answer.
+#: Appending an empty CLOSED block is the same mechanism Gemma's template applies natively,
+#: and restores candidate mass to 0.9996. Without it the readout measures a 0.1% event.
+thinking_suppression_suffix = "<think>\n\n</think>\n\n"
+#: Qwen 3.6 non-thinking card values.
+sampler_temperature = 0.7
+sampler_top_p = 0.80
+sampler_top_k = 20
+sampler_min_p = 0.0
+
+[models.smollm2_135m]
+#: [OPERATIONAL] provenance: plan §2 — CI/test fixture only, never a reported number
+repo_id = "mlx-community/SmolLM2-135M-Instruct"
+family = "llama"
+chat_template = ""
+enable_thinking = false
+thinking_suppression_suffix = ""
+sampler_temperature = 1.0
+sampler_top_p = 1.0
+sampler_top_k = 0
+sampler_min_p = 0.0
+
+[context]
+#: [LABEL_AFFECTING] provenance: plan §3.1 constraint C-1. Gemma's sliding window is 1024
+#: and RotatingKVCache overwrites in place above it. Staying strictly below keeps
+#: `offset < max_size`, so no rotation occurs and "exact state" is unambiguous.
+max_prompt_tokens = 900
+#: The window we assert against, read back from the model's own config.json in Stage 0.
+gemma_sliding_window = 1024
+
+[rendering]
+#: [LABEL_AFFECTING] provenance: plan §4.8 (exact state). The Qwen 3.6 template injects
+#: "Current date: <today>" into the system turn via strftime_now, which would silently
+#: change the prompt -- and therefore the state -- between runs on different days. The
+#: template accepts a `date_string` override, so we pin it. Any change to this value
+#: invalidates comparability with previously collected records.
+frozen_date_string = "Monday, 01 September 2025"
+
+[design]
+#: [LABEL_AFFECTING] provenance: plan §7 design sizes (second review round)
+games = 40
+probe_points = ["early", "late"]
+question_turns = 5
+#: Tier-1 neutral paraphrases; the remaining five are Tier-2 robustness.
+tier1_paraphrases = 3
+tier2_paraphrases = 8
+#: Independent samples per state at the deployment sampler.
+rollout_samples = 200
+#: Tier-2 under-determined arm: separate game set, k consistent candidates remaining.
+regime_u_games = 10
+regime_u_k = 4
+#: Candidate scheme: 10 values drawn from 0-99, presented as single-token indices 0-9
+#: (Luo et al. comparability, plan §5.0).
+candidate_count = 10
+candidate_value_min = 0
+candidate_value_max = 99
+#: Bare-value robustness arm: fixed-width 2-digit numbers, trie-scored (plan §4.3).
+bare_value_width = 2
+
+[determinism]
+#: [LABEL_AFFECTING] provenance: plan §8.1 — the gate
+restorations = 50
+stratified_states = 30
+#: Rotated-regime arm, required before Experiment 3 (plan §9.1).
+rotated_probe_tokens = [1500, 3000]
+
+[analysis]
+#: [LABEL_AFFECTING] provenance: plan §7 — Tier-1 binomial thresholds
+retrospective_follows_realized_min = 0.90
+rationalization_rate_min = 0.90
+recovery_acc_min = 0.90              # G2 sensitivity gate
+consistent_mass_min = 0.80           # G3 competence gate
+false_recovery_max = 0.15            # T5
+#: [LABEL_AFFECTING] provenance: plan §7.2 — equivalence margins, fixed on substantive
+#: grounds before collection, NOT derived from the pilot.
+tost_tv_margin = 0.10                # at most a 0.1 shift in any single candidate
+tost_kl_margin_bits = 0.15           # <5% of log2(10)=3.32 bits of maximum entropy
+alpha = 0.05
+bootstrap_resamples = 10000
+
+[recording]
+#: [OPERATIONAL] provenance: plan §6 storage decision
+topk_logprobs = 64
+#: Fraction of probes whose full float32 logit vector is archived.
+full_logit_archive_fraction = 0.01
+#: Batch size is fixed at 1 for every canonical measurement (plan §4.4).
+batch_size = 1
+
+[runtime]
+#: [OPERATIONAL] provenance: plan §3.5 — two resident MLX models once hard-rebooted
+#: the collection machine; one model resident at a time, enforced by an flock.
+gpu_lock_path = "/tmp/deceit-gpu.lock"
+wired_limit_gb = 96
+memory_limit_gb = 112
+hf_hub_offline = true
+master_seed = 20260831

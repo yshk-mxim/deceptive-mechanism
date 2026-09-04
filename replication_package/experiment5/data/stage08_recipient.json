@@ -1,0 +1,50 @@
+{
+ "config_digest": "6a29fdb86b928e5fd5f8f7771ac33e03",
+ "git_commit": "53c490e5251dd40df4d18e6f4d73ce9610413594-dirty",
+ "master_seed": 20260831,
+ "packages": {
+  "mlx": "0.31.2",
+  "mlx-lm": "0.31.3",
+  "mlx-metal": "0.31.2",
+  "numpy": "2.5.2",
+  "transformers": "5.10.0"
+ },
+ "payload": {
+  "models": {
+   "gemma4_26b_moe": {
+    "cells": 10,
+    "instances": 24,
+    "longest_prompt_tokens": 326,
+    "prompt_cap": 4000,
+    "revision": "bedc5c51905d796b192de24567f358b0b1653d2e",
+    "seconds": 361.5,
+    "states": 240,
+    "turn_terminator": "<turn|>",
+    "turn_terminator_ids": [
+     106
+    ]
+   },
+   "qwen36_27b": {
+    "cells": 10,
+    "instances": 24,
+    "longest_prompt_tokens": 335,
+    "prompt_cap": 4000,
+    "revision": "88093a661e91470db3ab24378ae83872f1972c88",
+    "seconds": 768.2,
+    "states": 240,
+    "turn_terminator": "<|im_end|>",
+    "turn_terminator_ids": [
+     248046
+    ]
+   }
+  },
+  "records": 5760,
+  "records_path": "replication_package/experiment5/data/recipient_records.jsonl",
+  "run_id": "c505dada81bd"
+ },
+ "pipeline_fingerprint": "33745dfafc73a4e752ee766bdf6cefdd",
+ "platform": "macOS-26.6.2-arm64-arm-64bit arm64",
+ "python": "3.12.0",
+ "stage": "stage08_recipient",
+ "started_utc": "2026-09-02T03:29:39.070695+00:00"
+}

@@ -1,0 +1,45 @@
+{
+  "config_digest": "6a29fdb86b928e5fd5f8f7771ac33e03",
+  "git_commit": "2a308f76350c5c5822c442b5a3573bf49ba4c04a-dirty",
+  "master_seed": 20260831,
+  "packages": {
+    "mlx": "0.31.2",
+    "mlx-lm": "0.31.3",
+    "mlx-metal": "0.31.2",
+    "numpy": "2.5.2",
+    "transformers": "5.10.0"
+  },
+  "payload": {
+    "models": {
+      "gemma4_26b_moe": {
+        "empty_prefix_skipped": 1,
+        "rescored": 431,
+        "revision": "bedc5c51905d796b192de24567f358b0b1653d2e",
+        "seconds": 95.4,
+        "source_trajectories": 432,
+        "states": 72,
+        "truncated": 376
+      },
+      "qwen36_27b": {
+        "empty_prefix_skipped": 39,
+        "rescored": 393,
+        "revision": "88093a661e91470db3ab24378ae83872f1972c88",
+        "seconds": 248.7,
+        "source_trajectories": 432,
+        "states": 72,
+        "truncated": 384
+      }
+    },
+    "records": 824,
+    "records_path": "../replication_package/experiment4/data/truncated_records.jsonl",
+    "regime": "reasoning_truncated",
+    "run_id": "bbdc459b2f44",
+    "source": "../replication_package/experiment4/data/provenance_records.jsonl",
+    "truncate": true
+  },
+  "pipeline_fingerprint": "5355cc601483b1fed1abcb1b0c16c6c7",
+  "platform": "macOS-26.6.2-arm64-arm-64bit arm64",
+  "python": "3.12.0",
+  "stage": "stage10_truncated",
+  "started_utc": "2026-09-02T17:33:08.971391+00:00"
+}

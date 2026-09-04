@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "probe_record.v1",
+  "title": "Experiment 1 probe record",
+  "description": "Contract between the inference harness and the analysis package. Schema-complete for all four experiments: fields Experiment 1 never populates are reserved and nullable, because a schema change after data collection either invalidates comparability or forces a migration.",
+  "type": "object",
+  "required": [
+    "schema",
+    "run_id",
+    "pipeline_fingerprint",
+    "model_key",
+    "model_revision",
+    "tier",
+    "condition",
+    "regime",
+    "game_id",
+    "probe_point",
+    "readout_key",
+    "readout_framing",
+    "state_digest",
+    "state_tokens",
+    "logit_digest",
+    "candidates",
+    "candidate_logprobs",
+    "candidate_mass",
+    "conditional",
+    "entropy_bits",
+    "p_max",
+    "topk_tokens",
+    "topk_logprobs",
+    "consistent_set"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "pipeline_fingerprint": {
+      "type": "string"
+    },
+    "model_key": {
+      "type": "string"
+    },
+    "model_revision": {
+      "type": "string"
+    },
+    "tier": {
+      "type": "integer"
+    },
+    "condition": {
+      "type": "string"
+    },
+    "regime": {
+      "type": "string"
+    },
+    "game_id": {
+      "type": "string"
+    },
+    "probe_point": {
+      "type": "string"
+    },
+    "readout_key": {
+      "type": "string"
+    },
+    "readout_framing": {
+      "type": "string"
+    },
+    "state_digest": {
+      "type": "string"
+    },
+    "state_tokens": {
+      "type": "integer"
+    },
+    "logit_digest": {
+      "type": "string"
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "candidate_logprobs": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "candidate_mass": {
+      "type": "number"
+    },
+    "conditional": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "entropy_bits": {
+      "type": "number"
+    },
+    "p_max": {
+      "type": "number"
+    },
+    "topk_tokens": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "topk_logprobs": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "consistent_set": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "running_consistent_set": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "integer"
+      },
+      "description": "Indices still consistent with the answers given up to this probe point. At `early` that is every candidate; at `late` it equals consistent_set. Recorded because it is what says whether a turn carried information: a question that narrows nothing is a turn passing without anything being learned, and separating those is the difference between 'the target drifts over time' and 'the readout tracks constraints arriving'."
+    },
+    "option_values": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "description": "For the bare-value arm, the fixed-width values actually shown, in list order. Null in the index arm, where every candidate is an option. Without it, 1 - candidate_mass conflates the model preferring a number it was never offered with the model not answering with a number at all."
+    },
+    "injected_index": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "injected_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "distractor_index": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "sampler_role": {
+      "type": "string"
+    },
+    "sampler_temperature": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "sampler_top_p": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Nucleus threshold actually applied to the branch draws, or null when nothing was sampled. Recorded rather than read from the config at analysis time: p_diverge must be computed under the sampler that produced the draws, and a config read later describes what the config says now."
+    },
+    "sampler_top_k": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Top-k cutoff actually applied to the branch draws, or null when nothing was sampled."
+    },
+    "sampler_min_p": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Minimum probability relative to the mode actually applied to the branch draws, or null when nothing was sampled."
+    },
+    "sampler_seed": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "rollout_samples": {
+      "type": "integer"
+    },
+    "realized_counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "p_diverge": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "retrospective": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "explanations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "post_selection_entropy_bits": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "post_selection_p_max": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "post_selection_argmax": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "injected_history_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "injected_branch_label": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "action_candidates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recipient_state": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "utility_condition": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "inner_utility": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "outer_utility": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reach_condition": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "control_arm": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "control_level": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "persona_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "provenance_condition": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "selector_source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "judge_labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

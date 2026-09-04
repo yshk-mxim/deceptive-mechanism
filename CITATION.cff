@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: >-
+  This repository is the evidence behind the paper below. Please cite the paper.
+title: >-
+  Replication package for "From Deceptive Outputs to Deceptive Mechanisms:
+  A Causal Framework for Language-Model Deception Research"
+authors:
+  - family-names: Shkolnikov
+    given-names: Yakov Pyotr
+version: 1.0.0
+license: MIT
+repository-code: https://github.com/yshk-mxim/deceptive-mechanism
+type: software
+preferred-citation:
+  type: article
+  title: >-
+    From Deceptive Outputs to Deceptive Mechanisms: A Causal Framework for
+    Language-Model Deception Research
+  authors:
+    - family-names: Shkolnikov
+      given-names: Yakov Pyotr
+  year: 2026
+  month: 9
+  journal: arXiv
+  doi: 10.48550/arXiv.2609.04166
+  url: https://arxiv.org/abs/2609.04166
+  notes: arXiv:2609.04166 [cs.AI]

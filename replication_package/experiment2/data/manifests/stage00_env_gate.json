@@ -1,0 +1,266 @@
+{
+  "config_digest": "d6735bb8a6579ef4514705c4c32b0f7c",
+  "git_commit": "06462635c7d3bbdedf4b07c69f2456971f6a4f02",
+  "master_seed": 20260831,
+  "packages": {
+    "mlx": "0.31.2",
+    "mlx-lm": "0.31.3",
+    "mlx-metal": "0.31.2",
+    "numpy": "2.5.2",
+    "transformers": "5.10.0"
+  },
+  "payload": {
+    "all_passed": true,
+    "models": {
+      "gemma4_26b_moe": {
+        "all_passed": true,
+        "cache_composition": {
+          "KVCache": 5,
+          "RotatingKVCache": 25
+        },
+        "checks": [
+          {
+            "composition": {
+              "KVCache": 5,
+              "RotatingKVCache": 25
+            },
+            "n_layers": 30,
+            "name": "cache_composition",
+            "passed": true
+          },
+          {
+            "n_caches": 30,
+            "n_layers": 30,
+            "name": "one_cache_per_layer",
+            "passed": true,
+            "why": "a shorter cache list means KV sharing across layers, which breaks layer-indexed hashing"
+          },
+          {
+            "key_present": true,
+            "name": "num_kv_shared_layers_is_zero",
+            "passed": true,
+            "value": 0
+          },
+          {
+            "name": "no_mtp_head",
+            "passed": true,
+            "why": "an MTP head adds a second logit path. Run here rather than recorded as asserted elsewhere: a check that reports someone else's assertion still says PASS after that assertion is deleted"
+          },
+          {
+            "max_prompt_tokens": 900,
+            "name": "prompt_cap_below_sliding_window",
+            "passed": true,
+            "sliding_window": 1024,
+            "why": "constraint C-1: above the window RotatingKVCache rotates and 'exact state' becomes buffer-index dependent"
+          },
+          {
+            "name": "logit_softcapping_recorded",
+            "observation_only": true,
+            "passed": true,
+            "value": 30.0,
+            "why": "logits are tanh-compressed; report probabilities, never raw logit gaps"
+          },
+          {
+            "name": "non_thinking_render",
+            "passed": true,
+            "prompt_tokens": 48,
+            "rendered_chars": 217
+          },
+          {
+            "cap": 900,
+            "name": "render_within_prompt_cap",
+            "passed": true,
+            "prompt_tokens": 48
+          },
+          {
+            "name": "candidate_indices_single_token",
+            "offenders": {},
+            "passed": true,
+            "token_ids": {
+              "0": 236771,
+              "1": 236770,
+              "2": 236778,
+              "3": 236800,
+              "4": 236812,
+              "5": 236810,
+              "6": 236825,
+              "7": 236832,
+              "8": 236828,
+              "9": 236819
+            }
+          },
+          {
+            "name": "digits_single_token",
+            "offenders": {},
+            "passed": true
+          },
+          {
+            "name": "bare_values_fixed_width",
+            "offenders": {},
+            "passed": true,
+            "why": "a tokeniser that merges digit pairs would corrupt every trie-scored result",
+            "width": 2
+          },
+          {
+            "continuation": "Rome",
+            "expected_substring": "rome",
+            "name": "generates_coherent_text",
+            "passed": true,
+            "question": "What is the capital of Italy? Answer with one word.",
+            "why": "a mis-sanitised checkpoint loads cleanly and emits noise; structure checks miss it"
+          },
+          {
+            "candidate_mass": 0.999996,
+            "minimum": 0.5,
+            "most_likely_token": "8",
+            "name": "answers_with_a_candidate",
+            "passed": true,
+            "recovers_injected": true,
+            "why": "template-level thinking suppression is not model-level suppression"
+          },
+          {
+            "distinct_digests": 1,
+            "name": "bitwise_determinism",
+            "passed": true,
+            "restorations": 50,
+            "suffix_tokens": 3,
+            "why": "\u00a74.8 requires identical raw logits after identical state restoration"
+          }
+        ],
+        "n_layers": 30,
+        "repo_id": "mlx-community/gemma-4-26B-A4B-it-qat-8bit",
+        "revision": "bedc5c51905d796b192de24567f358b0b1653d2e",
+        "seconds_per_probe": 0.021521889999858105,
+        "vocab_size": 262144,
+        "weight_digest": "bd7f300a2a613915be82d9180dae9aac"
+      },
+      "qwen36_27b": {
+        "all_passed": true,
+        "cache_composition": {
+          "ArraysCache": 48,
+          "KVCache": 16
+        },
+        "checks": [
+          {
+            "composition": {
+              "ArraysCache": 48,
+              "KVCache": 16
+            },
+            "n_layers": 64,
+            "name": "cache_composition",
+            "passed": true
+          },
+          {
+            "n_caches": 64,
+            "n_layers": 64,
+            "name": "one_cache_per_layer",
+            "passed": true,
+            "why": "a shorter cache list means KV sharing across layers, which breaks layer-indexed hashing"
+          },
+          {
+            "key_present": false,
+            "name": "num_kv_shared_layers_is_zero",
+            "passed": true,
+            "value": 0
+          },
+          {
+            "name": "no_mtp_head",
+            "passed": true,
+            "why": "an MTP head adds a second logit path. Run here rather than recorded as asserted elsewhere: a check that reports someone else's assertion still says PASS after that assertion is deleted"
+          },
+          {
+            "max_prompt_tokens": 900,
+            "name": "prompt_cap_below_sliding_window",
+            "passed": true,
+            "sliding_window": null,
+            "why": "no sliding window is declared. For a model whose cache rotates, not knowing the window is exactly the state in which C-1 cannot be verified, so that case fails rather than disappearing"
+          },
+          {
+            "name": "logit_softcapping_recorded",
+            "observation_only": true,
+            "passed": true,
+            "value": null,
+            "why": "logits are tanh-compressed; report probabilities, never raw logit gaps"
+          },
+          {
+            "name": "non_thinking_render",
+            "passed": true,
+            "prompt_tokens": 66,
+            "rendered_chars": 309
+          },
+          {
+            "cap": 900,
+            "name": "render_within_prompt_cap",
+            "passed": true,
+            "prompt_tokens": 66
+          },
+          {
+            "name": "candidate_indices_single_token",
+            "offenders": {},
+            "passed": true,
+            "token_ids": {
+              "0": 15,
+              "1": 16,
+              "2": 17,
+              "3": 18,
+              "4": 19,
+              "5": 20,
+              "6": 21,
+              "7": 22,
+              "8": 23,
+              "9": 24
+            }
+          },
+          {
+            "name": "digits_single_token",
+            "offenders": {},
+            "passed": true
+          },
+          {
+            "name": "bare_values_fixed_width",
+            "offenders": {},
+            "passed": true,
+            "why": "a tokeniser that merges digit pairs would corrupt every trie-scored result",
+            "width": 2
+          },
+          {
+            "continuation": "Rome",
+            "expected_substring": "rome",
+            "name": "generates_coherent_text",
+            "passed": true,
+            "question": "What is the capital of Italy? Answer with one word.",
+            "why": "a mis-sanitised checkpoint loads cleanly and emits noise; structure checks miss it"
+          },
+          {
+            "candidate_mass": 0.999565,
+            "minimum": 0.5,
+            "most_likely_token": "8",
+            "name": "answers_with_a_candidate",
+            "passed": true,
+            "recovers_injected": true,
+            "why": "template-level thinking suppression is not model-level suppression"
+          },
+          {
+            "distinct_digests": 1,
+            "name": "bitwise_determinism",
+            "passed": true,
+            "restorations": 50,
+            "suffix_tokens": 3,
+            "why": "\u00a74.8 requires identical raw logits after identical state restoration"
+          }
+        ],
+        "n_layers": 64,
+        "repo_id": "sprisa/Qwen3.6-27B-MLX-8bit-MTP",
+        "revision": "88093a661e91470db3ab24378ae83872f1972c88",
+        "seconds_per_probe": 0.07230417249986204,
+        "vocab_size": 248044,
+        "weight_digest": "4779f38b3e0e88d0dd003b182d663199"
+      }
+    }
+  },
+  "pipeline_fingerprint": "f98c075d09e76b21d289ebabf6a8bb61",
+  "platform": "macOS-26.6.2-arm64-arm-64bit arm64",
+  "python": "3.12.0",
+  "stage": "stage00_env_gate",
+  "started_utc": "2026-09-01T22:01:27.372168+00:00"
+}

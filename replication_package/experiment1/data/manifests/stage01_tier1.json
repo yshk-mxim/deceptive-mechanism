@@ -1,0 +1,36 @@
+{
+  "config_digest": "212327d12df3bd70b3fa2504663d8d08",
+  "git_commit": "de900d63b3db532ee79d2eab8857eb29a37a2e25",
+  "master_seed": 20260831,
+  "packages": {
+    "mlx": "0.31.2",
+    "mlx-lm": "0.31.3",
+    "mlx-metal": "0.31.2",
+    "numpy": "2.5.2",
+    "transformers": "5.10.0"
+  },
+  "payload": {
+    "models": {
+      "gemma4_26b_moe": {
+        "revision": "bedc5c51905d796b192de24567f358b0b1653d2e",
+        "seconds": 441.7,
+        "states": 320,
+        "weight_digest": "bd7f300a2a613915be82d9180dae9aac"
+      },
+      "qwen36_27b": {
+        "revision": "88093a661e91470db3ab24378ae83872f1972c88",
+        "seconds": 931.9,
+        "states": 320,
+        "weight_digest": "4779f38b3e0e88d0dd003b182d663199"
+      }
+    },
+    "records": 2400,
+    "records_path": "runs/final8/tier1_records.jsonl",
+    "run_id": "354d872e703a"
+  },
+  "pipeline_fingerprint": "3f3a07b4f6660939293d9ddb64eb4eec",
+  "platform": "macOS-26.6.2-arm64-arm-64bit arm64",
+  "python": "3.12.0",
+  "stage": "stage01_tier1",
+  "started_utc": "2026-09-01T20:34:50.656537+00:00"
+}

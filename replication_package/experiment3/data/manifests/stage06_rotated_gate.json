@@ -1,0 +1,103 @@
+{
+  "config_digest": "d6735bb8a6579ef4514705c4c32b0f7c",
+  "git_commit": "208905e7a2fe317f5452cd271a714dc5aa307a97-dirty",
+  "master_seed": 20260831,
+  "packages": {
+    "mlx": "0.31.2",
+    "mlx-lm": "0.31.3",
+    "mlx-metal": "0.31.2",
+    "numpy": "2.5.2",
+    "transformers": "5.10.0"
+  },
+  "payload": {
+    "gate_passed": true,
+    "models": {
+      "gemma4_26b_moe": {
+        "all_deterministic": true,
+        "all_rotated": true,
+        "applicable": true,
+        "probes": [
+          {
+            "cache_classes": [
+              "KVCache",
+              "RotatingKVCache"
+            ],
+            "deterministic": true,
+            "distinct_logit_digests": 1,
+            "layers_past_rotation": 25,
+            "prompt_tokens": 1500,
+            "restorations": 50,
+            "rotating_layers": 25,
+            "rotation_occurred": true,
+            "seconds_per_pass": 0.0366,
+            "snapshot_unperturbed": true
+          },
+          {
+            "cache_classes": [
+              "KVCache",
+              "RotatingKVCache"
+            ],
+            "deterministic": true,
+            "distinct_logit_digests": 1,
+            "layers_past_rotation": 25,
+            "prompt_tokens": 3000,
+            "restorations": 50,
+            "rotating_layers": 25,
+            "rotation_occurred": true,
+            "seconds_per_pass": 0.0367,
+            "snapshot_unperturbed": true
+          }
+        ],
+        "revision": "bedc5c51905d796b192de24567f358b0b1653d2e",
+        "snapshot_intact": true,
+        "window": 1024
+      },
+      "qwen36_27b": {
+        "all_deterministic": true,
+        "all_rotated": false,
+        "applicable": false,
+        "probes": [
+          {
+            "cache_classes": [
+              "ArraysCache",
+              "KVCache"
+            ],
+            "deterministic": true,
+            "distinct_logit_digests": 1,
+            "layers_past_rotation": 0,
+            "prompt_tokens": 1500,
+            "restorations": 50,
+            "rotating_layers": 0,
+            "rotation_occurred": false,
+            "seconds_per_pass": 0.1194,
+            "snapshot_unperturbed": true
+          },
+          {
+            "cache_classes": [
+              "ArraysCache",
+              "KVCache"
+            ],
+            "deterministic": true,
+            "distinct_logit_digests": 1,
+            "layers_past_rotation": 0,
+            "prompt_tokens": 3000,
+            "restorations": 50,
+            "rotating_layers": 0,
+            "rotation_occurred": false,
+            "seconds_per_pass": 0.1257,
+            "snapshot_unperturbed": true
+          }
+        ],
+        "revision": "88093a661e91470db3ab24378ae83872f1972c88",
+        "snapshot_intact": true,
+        "window": 1024
+      }
+    },
+    "run_id": "6554330fe57d"
+  },
+  "pipeline_fingerprint": "828c04104c6cdb30d818febe453414ac",
+  "platform": "macOS-26.6.2-arm64-arm-64bit arm64",
+  "python": "3.12.0",
+  "stage": "stage06_rotated_gate",
+  "started_utc": "2026-09-01T22:53:52.329821+00:00"
+}

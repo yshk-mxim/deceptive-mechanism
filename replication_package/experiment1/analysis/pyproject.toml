@@ -1,0 +1,66 @@
+# Copyright (c) 2026 Yakov P. Shkolnikov
+# SPDX-License-Identifier: MIT
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "deceit-analysis"
+version = "1.0.0"
+description = "Portable analysis for all five experiments. Runs anywhere with Python; no MLX, no weights, no Apple hardware."
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Yakov P. Shkolnikov" }]
+
+# Deliberately small and pure: this package must run on any machine, which is the whole
+# reproducibility claim. It must NEVER import the harness.
+dependencies = [
+  "numpy>=2.0",
+  "scipy>=1.14",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=9.0",
+  "hypothesis>=6.150",
+  "ruff>=0.15",
+  "mypy>=1.19",
+  "cosmic-ray>=8.7",
+  # Dev-only: the CVE half of the dependency gate. Never in the runtime closure, so it
+  # cannot execute during an analysis run.
+  "pip-audit>=2.9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/deceit_analysis"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E","W","F","I","N","UP","B","C90","SIM","C4","PERF","D","ERA","RUF","RET","PIE","FLY","PLR2004"]
+ignore = ["D203","D213","E501"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 8
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D","PLR2004"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["deceit_analysis"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src/deceit_analysis"]
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
